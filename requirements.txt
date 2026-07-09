@@ -1,0 +1,7 @@
+psycopg[binary]
+fastapi[standard]>=0.139.0
+sqlalchemy>=2.0.0
+pydantic-settings>=2.0.0
+pydantic>=2.7.0,<3.0.0
+python-dotenv>=1.0.0
+
