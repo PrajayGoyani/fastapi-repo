@@ -53,7 +53,7 @@ env.bak/
 venv.bak/
 
 # IDEs and editors
-.vscode/
+# .vscode/
 .idea/
 *.swp
 *.swo
