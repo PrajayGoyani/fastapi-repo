@@ -1,6 +1,7 @@
-name: fastapi-stack
+name: python_app
 services:
-  api:
+  fastapi:
+    container_name: fastapi # defining name, --scale will not work
     build: . # Builds an image from the Dockerfile in the current directory (.)
     ports:
       - "8000:8000" # "host_port:container_port"
@@ -9,20 +10,21 @@ services:
     environment:
       PYTHONDONTWRITEBYTECODE: 1 # Not to write .pyc bytecode files, save disk space
       PYTHONUNBUFFERED: 1 # Makes Python output unbuffered, logs appear immediately 
-      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     depends_on:
-      - db
+      - postgres
     restart: unless-stopped
 
-  db:
+  postgres:
+    container_name: postgres
     image: postgres:16
     env_file:
       - .env
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
 volumes:
-  db_data:
+  postgres_data:
