@@ -1,6 +1,5 @@
 .PHONY: dev start stop stop-dev
 
-# Uses config from `compose.override.yml`, watch for file changes in `./app`
 dev:
 	docker compose --profile dev up -d
 

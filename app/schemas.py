@@ -1,4 +1,5 @@
 from pydantic import BaseModel, ConfigDict
+from datetime import datetime
 
 class ItemBase(BaseModel):
     name: str
@@ -13,5 +14,6 @@ class ItemUpdate(ItemBase):
 
 class ItemResponse(ItemBase):
     id: int
+    created_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -8,12 +8,14 @@ router = APIRouter(
     tags=["items"]
 )
 
-# Create
-@router.post("/", response_model=schemas.ItemResponse, status_code=status.HTTP_201_CREATED)
-def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db)):
-    return crud.create_item(db=db, item=item)
+# Depends() used for injecting DB session object into handler function
 
-@router.get("/", response_model=list[schemas.ItemResponse])
+# Create
+@router.post("", response_model=schemas.ItemResponse, status_code=status.HTTP_201_CREATED)
+def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db)):
+    return crud.create_item(db=db, item=item) # named arguments passing
+
+@router.get("", response_model=list[schemas.ItemResponse])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_items(db=db, skip=skip, limit=limit)
 
