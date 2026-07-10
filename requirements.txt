@@ -1,5 +1,6 @@
 psycopg[binary]
 fastapi[standard]>=0.139.0
+alembic
 sqlalchemy>=2.0.0
 pydantic-settings>=2.0.0
 pydantic>=2.7.0,<3.0.0
