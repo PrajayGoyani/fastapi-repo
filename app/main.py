@@ -16,4 +16,5 @@ app.include_router(items.router)
 
 @app.get("/")
 def read_root():
+    # print(help(FastAPI.include_router))
     return {"message": "Welcome to the FastAPI Postgres Integration API!"}

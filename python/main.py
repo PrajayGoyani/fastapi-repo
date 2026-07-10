@@ -243,7 +243,21 @@ if False:
     receipt = f"Thanks {name}! {quantity}x {item} costs ${total_cost:.2f}."
     print(receipt)
 
+# Scopes
+# Classes
+# Modules
+# Lambda Functions
+# Map, Filter, Reduce
+# Decorators
 
+# List Compression
+if True:
+    numbers = [1, 2, 3, 4, 5]
+
+    numbers_power_2 = [n**2 for n in numbers]
+    print(numbers_power_2)
+
+# Operator overloading
 
 
 
