@@ -42,7 +42,7 @@ class Deck:
         if len(self.cards) > 0:
             cards_delt = []
             for x in range(number):
-                card = cards.pop()
+                card = self.cards.pop()
                 cards_delt.append(card)
             return cards_delt
 
@@ -106,8 +106,8 @@ class Game:
             dealer_hand = Hand(dealer=True)
 
             for i in range(2):
-                player_hand.add_card(deck.deal())
-                dealer_hand.add_card(deck.deal())
+                player_hand.add_card(deck.deal(1))
+                dealer_hand.add_card(deck.deal(1))
 
             print()
             print("*" * 30)
@@ -127,7 +127,7 @@ class Game:
                     choice = input("Please enter 'Hit' or 'Stand' (or H/S) ").lower()
                     print()
                 if choice in ["hit", "h"]:
-                    player_hand.add_card(deck.deal())
+                    player_hand.add_card(deck.deal(1))
                     player_hand.display()
 
             if self.check_winner(player_hand, dealer_hand):
@@ -138,7 +138,7 @@ class Game:
 
 
             while dealer_hand_value < 17:
-                dealer_hand.add_card(deck.deal())
+                dealer_hand.add_card(deck.deal(1))
                 dealer_hand_value = dealer_hand.get_value()
 
             dealer_hand.display(show_all_dealer_cards=True)
@@ -154,7 +154,7 @@ class Game:
             
         print("\nThanks for playing!")
 
-    def check_winner(self, player_hand, dearler_hand, game_over=False):
+    def check_winner(self, player_hand, dealer_hand, game_over=False):
         if not game_over:
             if player_hand.get_value() > 21:
                 print("You busted. Dealer wins! 😭")
