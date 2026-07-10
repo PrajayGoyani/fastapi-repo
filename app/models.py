@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, func
 from app.database import Base
 
 class Item(Base):
@@ -8,3 +8,4 @@ class Item(Base):
     name = Column(String, index=True, nullable=False)
     price = Column(Float, nullable=False)
     is_offer = Column(Boolean, default=None, nullable=True)
+    created_at = Column(DateTime, nullable=True, server_default=func.now()) # default=func.now()

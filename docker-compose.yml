@@ -2,6 +2,7 @@ name: python_app
 services:
   fastapi:
     container_name: fastapi # defining name, --scale will not work
+    profiles: ["prod"]
     build: . # Builds an image from the Dockerfile in the current directory (.)
     ports:
       - "8000:8000" # "host_port:container_port"
@@ -11,6 +12,25 @@ services:
       PYTHONDONTWRITEBYTECODE: 1 # Not to write .pyc bytecode files, save disk space
       PYTHONUNBUFFERED: 1 # Makes Python output unbuffered, logs appear immediately 
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  fastapi_dev:
+    container_name: fastapi_dev # defining name, --scale will not work
+    profiles: ["dev"]
+    build: . # Builds an image from the Dockerfile in the current directory (.)
+    ports:
+      - "8000:8000" # "host_port:container_port"
+    env_file:
+      - .env
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1 # Not to write .pyc bytecode files, save disk space
+      PYTHONUNBUFFERED: 1 # Makes Python output unbuffered, logs appear immediately 
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    volumes:
+      - ./app:/code/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload # override the command from Dockerfile
     depends_on:
       - postgres
     restart: unless-stopped

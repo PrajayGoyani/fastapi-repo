@@ -51,6 +51,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+compose.override.yml
 
 # IDEs and editors
 # .vscode/
