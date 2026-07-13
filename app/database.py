@@ -8,6 +8,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+def init_db():
+    # Create database tables (if they don't exist)
+    Base.metadata.create_all(bind=engine)
+
 # DB injection
 def get_db():
     db = SessionLocal()

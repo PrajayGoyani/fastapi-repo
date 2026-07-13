@@ -1,24 +1,26 @@
 ## MyShop (FastAPI, Postgres)
-This project uses **docker** to setup the environment.
+This project uses **Docker** to set up the environment and run the app.
 
-### Running the project
+## Running the project
 
+### Start containers
 ```bash
 make start
 ```
 
-### Stop the containers
+### Stop containers
 ```bash
 make stop
 ```
 
-### Running the project with development
+## Running the project (for development)
 
+### Start containers
 ```bash
 make dev
 ```
 
-### Stop the containers (for dev)
+### Stop containers
 ```bash
 make stop-dev
 ```

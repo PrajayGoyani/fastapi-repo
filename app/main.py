@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from app.database import engine, Base
+from app.database import init_db
 from app.routers import items
 
-# Create database tables (if they don't exist)
-Base.metadata.create_all(bind=engine)
+init_db()
 
 app = FastAPI(
     title="FastAPI Learning App",
