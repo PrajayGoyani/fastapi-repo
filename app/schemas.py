@@ -10,7 +10,8 @@ class ItemCreate(ItemBase):
     pass
 
 class ItemUpdate(ItemBase):
-    pass
+    name: str | None = None
+    price: float | None = None
 
 class ItemResponse(ItemBase):
     id: int

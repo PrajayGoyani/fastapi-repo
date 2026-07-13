@@ -37,7 +37,9 @@ def update_item(db: Session, item_id: int, item: schemas.ItemUpdate):
         # for key, value in update_data.items():
         #     setattr(db_item, key, value)
 
-        db_item.name = item.name.strip().title()
+        if item.name:
+            db_item.name = item.name.strip().title()
+
         db_item.price = item.price
         db_item.is_offer = item.is_offer
         db.commit()
