@@ -1,3 +1,6 @@
+
+from typing_extensions import deprecated
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
@@ -8,6 +11,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+@deprecated("Now fully managed by alembic migration")
 def init_db():
     # Create database tables (if they don't exist)
     Base.metadata.create_all(bind=engine)

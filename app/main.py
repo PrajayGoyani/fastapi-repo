@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.database import init_db
 from app.routers import items
 
-init_db()
+# init_db() # deprecated
 
 app = FastAPI(
     title="FastAPI Learning App",

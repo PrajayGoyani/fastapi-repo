@@ -25,3 +25,7 @@ make dev
 make stop-dev
 ```
 
+---
+
+See `./migrations/cmd.txt` for Alembic migration commands.
+

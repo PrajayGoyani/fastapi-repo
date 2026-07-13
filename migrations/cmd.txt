@@ -1,0 +1,11 @@
+# Auto generate intial migration based on model definitions
+alembic revision --autogenerate -m "Initial migration"
+
+# Run last generated migration
+alembic upgrade head
+
+# Downgrade migration
+alembic downgrade <-1|revision_id>
+
+# Create new migration after model changes
+alembic revision --autogenerate -m "Added date_formed field to items table"
