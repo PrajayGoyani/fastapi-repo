@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.database import init_db
-from app.routers import items
+from app.routers import items, ingest, results
 
 # init_db() # deprecated
 
@@ -11,7 +11,11 @@ app = FastAPI(
 )
 
 # Include routers
-app.include_router(items.router)
+app.include_router(items.router) # DML Endpoint
+
+# Data pipeline enpoints
+app.include_router(ingest.router) 
+app.include_router(results.router)
 
 @app.get("/")
 def read_root():

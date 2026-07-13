@@ -1,5 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
+from typing import Any
+from enum import Enum
 
 class ItemBase(BaseModel):
     name: str
@@ -18,3 +20,22 @@ class ItemResponse(ItemBase):
     created_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
+
+class JobStatus(str, Enum):
+    QUEUED = "queued"
+    PROCESSING = "processing"
+    DONE = "done"
+
+
+class IngestResponse(BaseModel):
+    job_id: str
+    status: JobStatus
+
+class ResultResponse(BaseModel):
+    job_id: str
+    status: JobStatus
+    result: Any
+
+class Event(BaseModel):
+    user_id: int
+    value: float
