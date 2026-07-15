@@ -1,16 +1,12 @@
 from logging.config import fileConfig
-
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-import os
-from dotenv import load_dotenv
-
 from alembic import context
 
 from app.database import Base
-
-# Load variables from .env file
-load_dotenv()
+from app.core.config import settings
+import app.models.user
+import app.models.item
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -32,19 +28,7 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-
-# --- DYNAMICALLY BUILD AND OVERWRITE THE URL ---
-user = os.getenv("POSTGRES_USER")
-password = os.getenv("POSTGRES_PASSWORD")
-db = os.getenv("POSTGRES_DB")
-
-# Construct the full connection URL
-db_url = f"postgresql+psycopg://{user}:{password}@localhost:5432/{db}"
-
-# Inject the generated URL into the configuration object
-config.set_main_option("sqlalchemy.url", db_url)
-# -----------------------------------------------
-
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -57,7 +41,7 @@ def run_migrations_offline() -> None:
     Calls to context.execute() here emit the given string to the
     script output.
 
-    """
+    """    
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,

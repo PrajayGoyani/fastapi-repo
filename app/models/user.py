@@ -20,6 +20,6 @@ class User(Base):
         except Exception:
             return False
     
-    def save_password_hash(self, plain_password: str) -> None:
+    def hash_password(self, plain_password: str) -> None:
         """Generates a secure hash from a plain-text password."""
         self.hashed_password = password_hash.hash(plain_password)

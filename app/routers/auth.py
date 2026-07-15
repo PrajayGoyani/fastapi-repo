@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Form, UploadFile, Depends
 from app.services import auth
+from app.dependencies import get_current_user
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+
+router = APIRouter(prefix="/auth", tags=["auth"]) #dependencies=[Depends(get_current_user)] for all API in route
 
 @router.post("/register")
 def login(username: str = Form(), password: str = Form()):
@@ -11,11 +13,8 @@ def login(username: str = Form(), password: str = Form()):
 def login(username: str = Form(), password: str = Form()):
     return auth.login(username, password)
 
-def authenticated():
-    return {}
-
 # Secure Endpoint
 @router.post("/upload")
-def upload(file: UploadFile, user = Depends(authenticated)):
-    contents = file.read()
+async def upload(file: UploadFile, current_user=Depends(get_current_user)):
+    contents = await file.read()
     return {"filename": file.filename, "size": len(contents)}
