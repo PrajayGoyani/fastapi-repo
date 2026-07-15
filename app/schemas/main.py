@@ -26,7 +26,6 @@ class JobStatus(str, Enum):
     PROCESSING = "processing"
     DONE = "done"
 
-
 class IngestResponse(BaseModel):
     job_id: str
     status: JobStatus
@@ -39,3 +38,8 @@ class ResultResponse(BaseModel):
 class Event(BaseModel):
     user_id: int
     value: float
+
+class User(BaseModel):
+    username: str
+    hashed_password: str
+    created_at: datetime | None = None

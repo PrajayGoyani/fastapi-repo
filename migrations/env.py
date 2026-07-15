@@ -2,10 +2,15 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+import os
+from dotenv import load_dotenv
 
 from alembic import context
 
 from app.database import Base
+
+# Load variables from .env file
+load_dotenv()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -26,6 +31,19 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+
+# --- DYNAMICALLY BUILD AND OVERWRITE THE URL ---
+user = os.getenv("POSTGRES_USER")
+password = os.getenv("POSTGRES_PASSWORD")
+db = os.getenv("POSTGRES_DB")
+
+# Construct the full connection URL
+db_url = f"postgresql+psycopg://{user}:{password}@localhost:5432/{db}"
+
+# Inject the generated URL into the configuration object
+config.set_main_option("sqlalchemy.url", db_url)
+# -----------------------------------------------
 
 
 def run_migrations_offline() -> None:

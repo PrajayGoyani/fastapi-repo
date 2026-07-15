@@ -1,25 +1,26 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from app import models, schemas
+from app.models.item import Item
+from app.schemas.main import ItemCreate, ItemUpdate
 
 def get_item(db: Session, item_id: int):
-    return db.scalar(select(models.Item).where(models.Item.id == item_id))
-    # return db.get(models.Item, item_id) # primary key lookup
-    # return db.query(models.Item).filter(models.Item.id == item_id).first() #legacy
+    return db.scalar(select(Item).where(Item.id == item_id))
+    # return db.get(Item, item_id) # primary key lookup
+    # return db.query(Item).filter(Item.id == item_id).first() #legacy
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):
-    statement = select(models.Item).offset(skip).limit(limit)
+    statement = select(Item).offset(skip).limit(limit)
     return db.scalars(statement).all()
-    # return db.query(models.Item).offset(skip).limit(limit).all() #legacy
+    # return db.query(Item).offset(skip).limit(limit).all() #legacy
 
-def create_item(db: Session, item: schemas.ItemCreate):
+def create_item(db: Session, item: ItemCreate):
     # creation_data = item.model_dump()
     # if "name" in creation_data:
     #     creation_data["name"] = creation_data["name"].strip().title()
-    # db_item = models.Item(**creation_data)
+    # db_item = Item(**creation_data)
 
     # field mapping
-    db_item = models.Item(
+    db_item = Item(
         name=item.name.strip().title(),
         price=item.price,
         is_offer=item.is_offer
@@ -29,7 +30,7 @@ def create_item(db: Session, item: schemas.ItemCreate):
     db.refresh(db_item)
     return db_item
 
-def update_item(db: Session, item_id: int, item: schemas.ItemUpdate):
+def update_item(db: Session, item_id: int, item: ItemUpdate):
     db_item = get_item(db, item_id)
     if db_item:
         # Automatic dynamic loop (Fast, but unsafe for custom mutations)

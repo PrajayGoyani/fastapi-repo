@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.routers.ingest import JOB_STATUS, JOB_RESULTS
-from app.schemas import ResultResponse
+from app.schemas.main import ResultResponse
 
 router = APIRouter(prefix="/results", tags=["results"])
 
@@ -13,4 +13,4 @@ async def get_result(job_id: str):
         "job_id": job_id,
         "status": JOB_STATUS[job_id],
         "result": JOB_RESULTS.get(job_id),
-}
+    }

@@ -9,3 +9,4 @@ class Item(Base):
     price = Column(Float, nullable=False)
     is_offer = Column(Boolean, default=None, nullable=True)
     created_at = Column(DateTime, nullable=True, server_default=func.now()) # default=func.now()
+

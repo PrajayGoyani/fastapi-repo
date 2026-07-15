@@ -2,7 +2,7 @@ import uuid
 import asyncio
 from typing import Any
 from fastapi import APIRouter, BackgroundTasks
-from app.schemas import Event, IngestResponse
+from app.schemas.main import Event, IngestResponse
 
 router = APIRouter(prefix="/ingest", tags=["ingest"])
 

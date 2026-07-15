@@ -1,4 +1,5 @@
 psycopg[binary]
+pwdlib[argon2]
 fastapi[standard]>=0.139.0
 alembic
 sqlalchemy>=2.0.0
