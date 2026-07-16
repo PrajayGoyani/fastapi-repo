@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.database import init_db
+from fastapi.middleware.cors import CORSMiddleware
+# from app.database import init_db
 from app.routers import auth, items, ingest, results
 
 # init_db() # deprecated
@@ -10,6 +11,14 @@ app = FastAPI(
     version="1.0.0"
 )
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
 
 # Include routers
 app.include_router(items.router) # DML Endpoint

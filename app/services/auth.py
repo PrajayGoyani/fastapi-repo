@@ -38,11 +38,12 @@ def login(username: str, password: str):
         raise AppException.unauthorised("Invalid username or password")
     
     # issue jwt token
-    jwt = create_access_token(user)
+    jwt: str = create_access_token(user)
 
     return {
-        "access_token": jwt,
-        "message": "User login successfully!", "data": {
+        "message": "User login successfully!",
+        "data": {
+            "access_token": jwt,
             "user": {
                 "id": user.id,
                 "username": user.username,
