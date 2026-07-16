@@ -1,13 +1,14 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from app.routers.ingest import JOB_STATUS, JOB_RESULTS
 from app.schemas.main import ResultResponse
+from app.core.exceptions import AppException
 
 router = APIRouter(prefix="/results", tags=["results"])
 
 @router.get("/{job_id}", response_model=ResultResponse)
 async def get_result(job_id: str):
     if job_id not in JOB_STATUS:
-        raise HTTPException(status_code=404, detail="Job not found")
+        raise AppException.not_found("Job not found")
 
     return {
         "job_id": job_id,
