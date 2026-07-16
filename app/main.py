@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.database import init_db
-from app.routers import auth, items, ingest, results
+from app.routers import (
+    auth, items, ingest, results, stream
+)
 
 # init_db() # deprecated
 
@@ -27,8 +29,11 @@ app.include_router(items.router) # DML Endpoint
 app.include_router(auth.router)
 
 # Data pipeline enpoints
-app.include_router(ingest.router) 
+app.include_router(ingest.router)
 app.include_router(results.router)
+
+# Stream, Websocket
+app.include_router(stream.router)
 
 @app.get("/")
 def read_root():

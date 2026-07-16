@@ -1,11 +1,11 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 from typing import Any
 from enum import Enum
 
 class ItemBase(BaseModel):
     name: str
-    price: float
+    price: float = Field(gt=0, description="Must be positive")
     is_offer: bool | None = None
 
 class ItemCreate(ItemBase):
