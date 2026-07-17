@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
+    APP_ENV: str = "developement"
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/postgres"
     JWT_SECRET: str
     JWT_ALG: str

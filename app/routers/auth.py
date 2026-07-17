@@ -1,17 +1,33 @@
-from fastapi import APIRouter, Form, UploadFile, Depends
+from fastapi import APIRouter, Request, UploadFile, Depends
+from pydantic import BaseModel
+
 from app.services import auth
 from app.dependencies import get_current_user
+from app.core.limiter import limiter
 
 
-router = APIRouter(prefix="/auth", tags=["auth"]) #dependencies=[Depends(get_current_user)] for all API in route
+router = APIRouter(prefix="/auth", tags=["auth"]) # dependencies=[Depends(get_current_user)] to secure all API routes
+
+class Register(BaseModel):
+    username: str
+    password: str
+
+class Login(Register):
+    pass
 
 @router.post("/register")
-def login(username: str = Form(), password: str = Form()):
-    return auth.register(username, password)
+@limiter.limit("5/minite")
+def login(request: Request, data: Register):
+    # return request.client
+    request_data = data.__dict__
+    return auth.register(**request_data)
 
 @router.post("/login")
-def login(username: str = Form(), password: str = Form()):
-    return auth.login(username, password)
+@limiter.limit("5/minute")
+def login(request: Request, data: Login):
+    # return request.client
+    request_data = data.__dict__
+    return auth.login(**request_data)
 
 # Secure Endpoint
 @router.post("/upload")

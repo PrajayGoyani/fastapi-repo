@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers import (
     auth, items, ingest, results, stream
 )
+from app.core.limiter import init_limiter
 
 # init_db() # deprecated
 
@@ -13,6 +14,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
+init_limiter(app)
 
 app.add_middleware(
     CORSMiddleware,

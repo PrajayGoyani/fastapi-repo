@@ -38,4 +38,4 @@ def validate_access_token(token: str):
     except ExpiredSignatureError:
         raise AppException.unauthorised("Token has expired")
     except InvalidTokenError:
-        raise AppException.unauthorised("Token token")
+        raise AppException.unauthorised("Token invalid")
