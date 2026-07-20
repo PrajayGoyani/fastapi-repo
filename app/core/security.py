@@ -13,6 +13,7 @@ JWT_EXPIRE_MIN = settings.JWT_EXPIRE_MIN
 
 def create_access_token(user: User) -> str:
     now = datetime.now(timezone.utc)
+    # nbf = now + 3600 # not before
     exp = now + timedelta(minutes=JWT_EXPIRE_MIN)
 
     payload = {
@@ -20,6 +21,8 @@ def create_access_token(user: User) -> str:
         "username": user.username,
         "iat": int(now.timestamp()),
         "exp": int(exp.timestamp()),
+        # "aud": "", # can be string or []string
+        # "nbf": int(nbf.timestamp()),
     }
 
     return jwt.encode(

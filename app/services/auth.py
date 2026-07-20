@@ -22,6 +22,19 @@ def register(username: str, password: str):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    jwt: str = issue_jwt(user)
+
+    return {
+        "message": "User registered!",
+        "data": {
+            "access_token": jwt,
+            "user": {
+                "id": user.id,
+                "username": user.username,
+            }
+        }
+    }
     
     return { "message": "User registered!", "data": { "username": db_user.username } }
 
@@ -36,8 +49,7 @@ def login(username: str, password: str):
     if not user.verify_password(password):
         raise AppException.unauthorised("Invalid username or password")
     
-    # issue jwt token
-    jwt: str = create_access_token(user)
+    jwt: str = issue_jwt(user)
 
     return {
         "message": "User login successfully!",
@@ -49,6 +61,11 @@ def login(username: str, password: str):
             }
         }
     }
+
+def issue_jwt(user: User):
+    # issue jwt token
+    jwt: str = create_access_token(user)
+    return jwt
 
 
 

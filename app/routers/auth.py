@@ -34,3 +34,7 @@ def login(request: Request, data: Login):
 async def upload(file: UploadFile, current_user=Depends(get_current_user)):
     contents = await file.read()
     return {"filename": file.filename, "size": len(contents)}
+
+@router.post("/me")
+def me(current_user=Depends(get_current_user)):
+    return current_user
