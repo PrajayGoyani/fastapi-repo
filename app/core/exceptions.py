@@ -21,7 +21,6 @@ class AppException:
     def not_found(message: str):
         return AppException.error(404, message)
     
-    
     @staticmethod
     def unauthorised(message: str):
         return AppException.error(401, message)

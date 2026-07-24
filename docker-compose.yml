@@ -21,16 +21,20 @@ services:
     profiles: ["dev"]
     build: . # Builds an image from the Dockerfile in the current directory (.)
     ports:
-      - "8000:8000" # "host_port:container_port"
+      # "host_port:container_port"
+      - "8000:8000"  # Web app traffic
+      - "5678:5678"  # Debugger attach traffic
     env_file:
       - .env
     environment:
       PYTHONDONTWRITEBYTECODE: 1 # Not to write .pyc bytecode files, save disk space
       PYTHONUNBUFFERED: 1 # Makes Python output unbuffered, logs appear immediately 
+      PYDEVD_DISABLE_FILE_VALIDATION: 1
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     volumes:
       - ./app:/code/app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload # override the command from Dockerfile
+    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload # override the command from Dockerfile
+    command: python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000
     depends_on:
       - postgres
     restart: unless-stopped
