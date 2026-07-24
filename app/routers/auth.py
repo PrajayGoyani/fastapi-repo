@@ -16,7 +16,7 @@ class Login(Register):
     pass
 
 @router.post("/register")
-@limiter.limit("5/minite")
+@limiter.limit("5/minute")
 def login(request: Request, data: Register):
     # return request.client
     request_data = data.__dict__

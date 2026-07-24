@@ -1,3 +1,4 @@
+import logging
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -5,6 +6,8 @@ from app.database import get_db
 from app.models.user import User
 from app.core.exceptions import AppException
 from app.core.security import create_access_token
+
+logger = logging.getLogger(__name__)
 
 def register(username: str, password: str):
     db: Session = next(get_db())
@@ -23,7 +26,7 @@ def register(username: str, password: str):
     db.commit()
     db.refresh(db_user)
 
-    jwt: str = issue_jwt(user)
+    jwt: str = issue_jwt(db_user)
 
     return {
         "message": "User registered!",
@@ -43,16 +46,19 @@ def login(username: str, password: str):
     db: Session = next(get_db())
     user: User = db.scalar(select(User).where(User.username == username))
 
-    if not user:
-        raise AppException.unauthorised("Invalid username or password")
-
-    if not user.verify_password(password):
+    if not user or not user.verify_password(password):
+        logger.warning(
+            "Authentication failed",
+            extra={"username_attempted": username, "reason": "invalid_credentials"}
+        )
         raise AppException.unauthorised("Invalid username or password")
     
     jwt: str = issue_jwt(user)
 
+    logger.info("User authenticated successfully", extra={"user_id": user.id})
+
     return {
-        "message": "User login successfully!",
+        "message": "User logged in!",
         "data": {
             "access_token": jwt,
             "user": {

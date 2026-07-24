@@ -5,8 +5,11 @@ from app.routers import (
     auth, items, ingest, results, stream
 )
 from app.core.limiter import init_limiter
+from app.core.logger import setup_logging
 
 # init_db() # deprecated
+
+setup_logging()
 
 app = FastAPI(
     title="FastAPI Learning App",
