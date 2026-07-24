@@ -17,7 +17,7 @@ class Login(Register):
 
 @router.post("/register")
 @limiter.limit("5/minute")
-def login(request: Request, data: Register):
+def register(request: Request, data: Register):
     # return request.client
     request_data = data.__dict__
     return auth.register(**request_data)
