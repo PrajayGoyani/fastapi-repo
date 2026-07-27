@@ -22,7 +22,7 @@ def register(username: str, password: str):
     )
     db_user.hash_password(password)
 
-    db.add(db_user)
+    id = db.add(db_user)
     db.commit()
     db.refresh(db_user)
 
@@ -33,8 +33,8 @@ def register(username: str, password: str):
         "data": {
             "access_token": jwt,
             "user": {
-                "id": user.id,
-                "username": user.username,
+                "id": db_user.id,
+                "username": db_user.username,
             }
         }
     }
@@ -51,7 +51,7 @@ def login(username: str, password: str):
             "Authentication failed",
             extra={"username_attempted": username, "reason": "invalid_credentials"}
         )
-        raise AppException.unauthorised("Invalid username or password")
+        raise AppException.unauthorised("Invalid credentials")
     
     jwt: str = issue_jwt(user)
 
