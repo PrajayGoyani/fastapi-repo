@@ -9,3 +9,4 @@ alembic
 debugpy
 pytest
 httpx2
+python-multipart
