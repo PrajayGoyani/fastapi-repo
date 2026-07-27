@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from app.services import auth
 from app.dependencies import get_current_user
 from app.core.limiter import limiter
+from app.core.config import settings
 
 
 router = APIRouter(prefix="/auth", tags=["auth"]) # dependencies=[Depends(get_current_user)] to secure all API routes
@@ -16,14 +17,14 @@ class Login(Register):
     pass
 
 @router.post("/register")
-@limiter.limit("5/minute")
+@limiter.limit(lambda: settings.AUTH_RATE_LIMIT)
 def register(request: Request, data: Register):
     # return request.client
     request_data = data.__dict__
     return auth.register(**request_data)
 
 @router.post("/login")
-@limiter.limit("5/minute")
+@limiter.limit(lambda: settings.AUTH_RATE_LIMIT)
 def login(request: Request, data: Login):
     # return request.client
     request_data = data.__dict__

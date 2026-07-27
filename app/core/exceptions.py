@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 
 class AppException:
@@ -11,16 +11,16 @@ class AppException:
 
     @staticmethod
     def conflict(message: str):
-        return AppException.error(409, message)
+        return AppException.error(status.HTTP_409_CONFLICT, message)
 
     @staticmethod
     def bad_request(message: str):
-        return AppException.error(400, message)
+        return AppException.error(status.HTTP_400_BAD_REQUEST, message)
 
     @staticmethod
     def not_found(message: str):
-        return AppException.error(404, message)
+        return AppException.error(status.HTTP_404_NOT_FOUND, message)
     
     @staticmethod
     def unauthorised(message: str):
-        return AppException.error(401, message)
+        return AppException.error(status.HTTP_401_UNAUTHORIZED, message)

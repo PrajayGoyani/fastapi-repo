@@ -8,3 +8,4 @@ slowapi
 alembic
 debugpy
 pytest
+httpx2
