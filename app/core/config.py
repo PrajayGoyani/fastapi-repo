@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     JWT_ALG: str
     JWT_EXPIRE_MIN: int
     AUTH_RATE_LIMIT: str = "5/minute"
+    GEMINI_API_KEY: str
+    OPENAI_API_KEY: str
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.database import init_db
 from app.routers import (
-    auth, items, ingest, results, stream
+    auth, items, ingest, results, stream, llm
 )
 from app.core.limiter import init_limiter
 from app.core.logger import setup_logging
@@ -39,6 +39,9 @@ app.include_router(results.router)
 
 # Stream, Websocket
 app.include_router(stream.router)
+
+# LLM routes
+app.include_router(llm.router)
 
 @app.get("/")
 def read_root():
